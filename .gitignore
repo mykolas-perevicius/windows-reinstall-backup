@@ -1,0 +1,32 @@
+# Backup directories (if testing locally)
+WindowsBackup_*/
+
+# PowerShell module cache
+PSGetModuleInfo.xml
+
+# VS Code settings (optional - uncomment if you don't want to share your personal settings)
+# .vscode/
+
+# Windows thumbnail cache
+Thumbs.db
+ehthumbs.db
+
+# macOS files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Compressed archives (if testing locally)
+*.zip
+*.7z
+*.rar
+
+# Test files
+test_*.ps1
