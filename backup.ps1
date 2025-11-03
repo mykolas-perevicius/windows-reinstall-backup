@@ -9,6 +9,9 @@
 .PARAMETER TargetDrive
     The drive letter where the backup will be stored (e.g., 'D', 'E')
 
+.PARAMETER SourceDrive
+    The drive letter to backup FROM (default: 'C'). Use this if backing up from a different drive.
+
 .PARAMETER Username
     The Windows username to backup. If not specified, will use current user or prompt.
 
@@ -29,6 +32,10 @@
 
 .EXAMPLE
     .\backup.ps1 -TargetDrive E -ExcludeDownloads -Compress
+
+.EXAMPLE
+    .\backup.ps1 -SourceDrive E -TargetDrive C -Username "OldUser"
+    Backup from E: drive (old Windows) to C: drive (new Windows)
 #>
 
 [CmdletBinding(SupportsShouldProcess=$true)]
@@ -36,6 +43,10 @@ param(
     [Parameter(Mandatory=$false)]
     [ValidatePattern('^[A-Z]$')]
     [string]$TargetDrive,
+
+    [Parameter(Mandatory=$false)]
+    [ValidatePattern('^[A-Z]$')]
+    [string]$SourceDrive = "C",
 
     [Parameter(Mandatory=$false)]
     [string]$Username,
@@ -120,10 +131,17 @@ if (-not $Username) {
     }
 }
 
+# Verify source drive exists
+if (-not (Test-Path "$SourceDrive`:\")) {
+    Write-ColorOutput "Source drive $SourceDrive`: does not exist!" "Error"
+    exit 1
+}
+
 # Verify user profile exists
-$userProfilePath = "C:\Users\$Username"
+$userProfilePath = "$SourceDrive`:\Users\$Username"
 if (-not (Test-Path $userProfilePath)) {
     Write-ColorOutput "User profile path does not exist: $userProfilePath" "Error"
+    Write-ColorOutput "Make sure the username is correct for drive $SourceDrive`:" "Warning"
     exit 1
 }
 
@@ -151,8 +169,9 @@ if ($targetFreeGB -lt 10) {
 # Confirm before proceeding
 if (-not $WhatIfPreference) {
     Write-Host "`nBackup Configuration:" -ForegroundColor Yellow
-    Write-Host "  User:              $Username"
-    Write-Host "  Target:            $backupRoot"
+    Write-Host "  Source Drive:      $SourceDrive`: ($userProfilePath)"
+    Write-Host "  Target Drive:      $TargetDrive`: ($backupRoot)"
+    Write-Host "  Username:          $Username"
     Write-Host "  Exclude Downloads: $ExcludeDownloads"
     Write-Host "  Compress:          $Compress"
     Write-Host ""

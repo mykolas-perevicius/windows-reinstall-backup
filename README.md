@@ -73,6 +73,19 @@ Invoke-WebRequest -Uri "https://raw.githubusercontent.com/[yourname]/windows-rei
 .\backup.ps1 -TargetDrive D -Compress
 ```
 
+### Backup from Different Drive
+
+If you've already done a fresh Windows install and want to backup your old drive:
+
+```powershell
+# Backup FROM E: drive TO C: drive
+# (E: = old Windows installation, C: = new Windows installation)
+.\backup.ps1 -SourceDrive E -TargetDrive C -Username "YourOldUsername"
+
+# Example: Old Windows on E:, want backup stored on new Windows (C:)
+.\backup.ps1 -SourceDrive E -TargetDrive C -Username "OldUser"
+```
+
 ### Dry Run (Preview)
 
 See what would be backed up without actually copying:
@@ -93,6 +106,7 @@ See what would be backed up without actually copying:
 | Parameter | Type | Description | Example |
 |-----------|------|-------------|---------|
 | `-TargetDrive` | String | Drive letter for backup destination | `D`, `E` |
+| `-SourceDrive` | String | Drive letter to backup FROM (default: `C`) | `E`, `D` |
 | `-Username` | String | Windows username to backup (default: current user) | `JohnDoe` |
 | `-ExcludeDownloads` | Switch | Skip backing up Downloads folder | `-ExcludeDownloads` |
 | `-Compress` | Switch | Create ZIP archive after backup | `-Compress` |
