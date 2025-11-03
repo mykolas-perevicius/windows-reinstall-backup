@@ -1,28 +1,76 @@
-# Windows Reinstall Backup Script
+# Windows Reinstall Backup & Restore
 
-A comprehensive PowerShell script for backing up user data, configurations, and settings before a clean Windows reinstall. Intelligently copies only safe, necessary files while excluding system files that would break on a fresh install.
+A comprehensive PowerShell toolkit for backing up and restoring user data, configurations, and settings during Windows reinstalls. Intelligently copies only safe, necessary files while excluding system files that would break on a fresh install.
+
+## 🎯 Two Scripts, Complete Solution
+
+### **backup.ps1** - Backup Before Reinstall
+- Smart backup of user data and configurations
+- Exports system configuration for reference
+- Safe exclusions (node_modules, system files)
+- Detailed logging and restoration guide
+
+### **restore.ps1** - Automated Restoration ⭐ NEW!
+- **Automatically restores** all your backed up data
+- **Auto-installs VS Code extensions** from backup
+- **Fixes SSH key permissions** automatically
+- Interactive selective restore menu
+- Progress tracking and verification
 
 ## Features
 
+### Backup Features
 - **Smart Backup**: Automatically identifies and backs up user data, development configs, and application settings
 - **System Config Export**: Captures environment variables, installed programs, and Windows features
 - **Safety Checks**: Verifies space, detects existing backups, and warns about large folders
 - **Progress Tracking**: Real-time progress indicators with detailed logging
 - **Dry Run Mode**: Preview what will be backed up without copying files
-- **Restoration Guide**: Auto-generates step-by-step instructions for restoring everything
 - **Compression Support**: Optional ZIP compression to save space
 - **Detailed Logging**: Complete audit trail of all backup operations
 
+### Restore Features ⭐ NEW!
+- **Automated File Restoration**: Restores Documents, Desktop, Pictures, etc. to correct locations
+- **Config Restoration**: SSH keys, Git config, VS Code settings, Terminal config
+- **VS Code Extensions**: Automatically reinstalls all extensions from backup
+- **SSH Permission Fix**: Automatically sets correct permissions on restored SSH keys
+- **Selective Restore**: Interactive menu to choose what to restore
+- **Progress Tracking**: See what's being restored in real-time
+- **Manual Steps Guide**: Clear guidance on what still needs manual attention
+
 ## Quick Start
+
+### Step 1: Backup (Before Reinstall)
 
 ```powershell
 # Clone the repository
-git clone https://github.com/[yourname]/windows-reinstall-backup
+git clone https://github.com/mykolas-perevicius/windows-reinstall-backup
 cd windows-reinstall-backup
 
 # Run backup to drive D: (will prompt for confirmation)
 .\backup.ps1 -TargetDrive D
 ```
+
+### Step 2: Restore (After Fresh Windows Install) ⭐
+
+```powershell
+# Clone the repository on your fresh Windows
+git clone https://github.com/mykolas-perevicius/windows-reinstall-backup
+cd windows-reinstall-backup
+
+# Run the restore script (auto-detects backup location)
+.\restore.ps1
+
+# Or specify backup path explicitly
+.\restore.ps1 -BackupPath "C:\WindowsBackup_20241103_153000"
+```
+
+The restore script will:
+- ✅ Automatically restore all your files
+- ✅ Reinstall VS Code extensions
+- ✅ Fix SSH key permissions
+- ✅ Guide you through remaining manual steps
+
+**See [RESTORE_GUIDE.md](RESTORE_GUIDE.md) for detailed restoration instructions.**
 
 ## Prerequisites
 
